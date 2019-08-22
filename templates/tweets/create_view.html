@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>create view</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}| create{% endblock %}
+{% block container %}
 	<form method="POST" action="">{% csrf_token %}
 		{{ form.as_p}}
 		<input type="submit">
 	</form>
-</body>
-</html>
+{% endblock %}

@@ -18,7 +18,7 @@ from django.urls import path
 from .views import Tweetdetailview,Tweetlistview,Tweetcreateview,Tweetupdateview,Tweetdeleteview
 app_name = 'tweet'
 urlpatterns = [
-    path("search/",Tweetcreateview.as_view(),name='create'),
+    path("create/",Tweetcreateview.as_view(),name='create'),
     path("<int:pk>/update/", Tweetupdateview.as_view(), name='update'),
     path("<int:pk>/delete/", Tweetdeleteview.as_view(), name='delete'),
     path("<int:pk>/",Tweetdetailview.as_view(),name="detail"),

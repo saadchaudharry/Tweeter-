@@ -1,5 +1,8 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% block title %}| delete{% endblock %}
+{% block container %}
 <form method="post">{% csrf_token %}
     <p>Are you sure you want to delete this tweet"{{ object }}"?</p>
     <input type="submit" value="Confirm">
 </form>
+{% endblock %}

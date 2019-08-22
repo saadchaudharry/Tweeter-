@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>list</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}| tweets {% endblock %}
+
 {% include "tweets/search_form.html" %}<br>
+{% block container %}
 {% for object in object_list %}
 
 {{object.user}}<br>
@@ -18,5 +16,4 @@
 	<p>No tweets yet</p>
 	{% endif %}
 {% endfor %}
-</body>
-</html>
+{% endblock %}
