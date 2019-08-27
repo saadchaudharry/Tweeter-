@@ -60,6 +60,13 @@ class Tweetlistview(ListView):
             )
         return qs
 
+    def get_context_data(self, *args, **kwargs):
+        context=super(Tweetlistview,self).get_context_data(*args, **kwargs)
+        context["create_form"]=TweetModelForm()
+        context["create_url"]=reverse_lazy("tweet:create")
+        return context
+
+    # login_url = "/admin/"
     template_name = "tweets/list_view.html"
 
 # def tweet_detail_view(request,id=2):

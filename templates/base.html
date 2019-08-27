@@ -13,8 +13,9 @@
     <title>Tweeter {% block title %} {% endblock %}</title>
   </head>
   <body>
+  {% include "navbar.html" %}
   <div class="container">
-      {% block container %}{% endblock %}
+      {% block container %} {% endblock %}
   </div>
 
     <!-- Optional JavaScript -->

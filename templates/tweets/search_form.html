@@ -1,4 +1,14 @@
-<form method="GET" action='{% url "tweet:list" %}'>
-    <input type="text" name="q" placeholder="Enter the tweets">
-    <input type="submit" value="search" >
+<form class="form-inline my-2 my-lg-0"  method="GET" action='{% url "tweet:list" %}'>
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
+      <input class="btn btn-outline-info my-2 my-sm-0" type="submit" value="search" >
 </form>
+
+<!--<form method="GET" action='{% url "tweet:list" %}'>-->
+<!--    <input type="text" name="q" placeholder="Enter the tweets">-->
+<!--    <input type="submit" value="search" >-->
+<!--</form>-->
+
+<!--  <form class="form-inline my-2 my-lg-0"  method="GET" action='{% url "tweet:list" %}'>-->
+<!--      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">-->
+<!--      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="search" >Search</button>-->
+<!--    </form>-->

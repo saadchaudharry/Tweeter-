@@ -1,19 +1,42 @@
 {% extends "base.html" %}
 {% block title %}| tweets {% endblock %}
 
-{% include "tweets/search_form.html" %}<br>
 {% block container %}
-{% for object in object_list %}
+<div class="media">
+  <div class="media-body">
 
-{{object.user}}<br>
-<a href="">#{{object.content}}</a><br>
-{{object.timestamp}}<br>
-{{object.timestamp|timesince}}<hr>
+	  <div class="row">
+
+
+        <div class="col-sm-3 offset-1 col-xs-12">
+            <h1 class="text-center" style="background-color: steelblue">{{ request.user }}</h1>
+        </div>
+          {% include "tweets/form.html" with form=create_form action_url=create_url  btn_title="tweet" %}
+      </div><hr>
+      <div class="row>">
+          {% for object in object_list %}
+          <div class="media-left m-0">
+          <div class="col-sm-9 offset-4">
+              <a class="text-capitalize" href="#">#{{object.content}}</a> on<br>
+                    {{object.timestamp}}|
+                    {{object.timestamp|timesince}}..|  <a href="{{object.get_absolute_url}}">VIEW</a>
+          </div></div>
+          <div class="12">
+          </div><div<hr></div>
+
+
+
+          </div>
+</div><hr>
 {% empty %}
-	{% if request.GET.q %}
-	<p>No tweets found</p>
-	{% else %}
-	<p>No tweets yet</p>
-	{% endif %}
+{% if request.GET.q %}
+no tweet
+{% else %}
+kakaka
+{% endif %}
+
 {% endfor %}
 {% endblock %}
+
+
+

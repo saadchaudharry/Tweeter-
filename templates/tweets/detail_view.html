@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>tweets</title>
-</head>
-<body>
-#{{object.content}} BY<br>
-{{object.user}}<br>
-{{object.timestamp}}<br>
-{{object.timestamp|timesince}}  a go..
-</body>
-</html>
+{% extends "base.html" %}
+{% block container %}
+<div class="row">
+	<div class="col-sm-3  text-center" style="background-color: lightskyblue">
+	<h1>{{request.user}}</h1>
+	</div>
+	<div class="col-sm-9">
+	#{{object.content}} BY<br>
+	{{object.timestamp}}|
+	{{object.timestamp|timesince}}..
+	</div>
+</div>
+{% endblock %}

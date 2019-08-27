@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from . import views
+from django.views.generic.base import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("",views.home,name="home"),
+    path("",RedirectView.as_view(url="/tweets/"),name="home"),
     path("tweets/",include('tweets.urls',namespace='tweet')),
 ]
 
