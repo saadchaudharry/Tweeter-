@@ -47,7 +47,7 @@ class Tweetdetailview(DetailView):
         return Tweet.objects.get(id=pk)
 
 
-class Tweetlistview(ListView):
+class Tweetlistview(LoginRequiredMixin,ListView):
 
     def get_queryset(self,*args,**kwargs):
         qs=Tweet.objects.all()
@@ -66,7 +66,7 @@ class Tweetlistview(ListView):
         context["create_url"]=reverse_lazy("tweet:create")
         return context
 
-    # login_url = "/admin/"
+    login_url = "/admin/"
     template_name = "tweets/list_view.html"
 
 # def tweet_detail_view(request,id=2):

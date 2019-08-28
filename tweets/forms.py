@@ -5,7 +5,7 @@ from django import forms
 
 
 class TweetModelForm(forms.ModelForm):
-	content=forms.CharField(label="", widget=forms.Textarea(attrs ={"placeholder":"enter your tweet",'class':"form-control"}))
+	# content=forms.CharField(label="", widget=forms.TextInput(attrs ={"placeholder":"enter your tweet",'class':"form-control"}))
 	class Meta:
 		model=Tweet
 		fields=[
