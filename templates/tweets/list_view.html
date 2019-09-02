@@ -1,24 +1,101 @@
 {% extends "base.html" %}
 {% block title %}| tweets {% endblock %}
 
+{% block script %}
+<script>
+    function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+
+            const xhr=new XMLHttpRequest();
+
+            xhr.open("GET","/api/tweets",true);
+            xhr.onprogress=function () {
+                console.log("loading.....");
+
+            };
+            xhr.onload=function () {
+               let obj= JSON.parse(this.response);
+                console.log(obj)
+                let list=document.getElementById('stuff')
+                str=''
+                for (i in obj){
+                    str+='<li>'+obj[i].content+'</li>'
+                }
+                list.innerHTML=str
+            };
+            xhr.send();
+        
+            
+            
+
+
+
+    //
+    // $(document).ready(function(){
+    //     console.log("kaam chalu hai");
+    //
+    //     var queryt=getParameterByName('q');
+    //     console.log(queryt);
+    //      $.ajax({
+    //          url: "/api/tweets/",
+    //          data:{
+    //              "q":queryt
+    //          },
+    //          method: "GET",
+    //          success: function (data) {
+    //              $.each(data,function (key,value) {
+    //                  // console.log(key);
+    //                  // console.log(value.user);
+    //                  // console.log(value.content);
+    //                  // var via ="via";
+    //                  var keys=key;
+    //                  var contends=value.content;
+    //                  var Tusers=value.user;
+    //                  $("#stuff").append(
+    //                      "<div class='row'>" +"<div class='offset-3'>"+"<li>"+"<a href='#'>"+ contends+"</a>" +"<br>"+  "via"  + Tusers.username  +"|  <a href='#'> view" +"</a>"+"</li>"+"</div>" +"</div>"+"<hr>"
+    //                  )
+    //              })
+    //
+    //          },
+    //          error: function (data) {
+    //              console.log("error");
+    //              console.log(data);
+    //          }
+    //              })
+    //
+    // });
+</script>
+{% endblock %}
+
 {% block container %}
-<div>
-      <div class="col-sm-3 offset-1 col-xs-12">
+<div id="stuff">
+
+</div>
+<div class="row">
+      <div class="col-sm-3 col-xs-12">
             <h1 class="text-center" style="background-color: steelblue">{{ request.user }}</h1>
             </div>
-    <div class="col-9 offset-4 mt-0">
+    <div class="col-sm-9 mt-0">
           {% include "tweets/form.html" with form=create_form action_url=create_url  btn_title="tweet" %}
     </div>
 </div><hr>
 
-<div class="row">
-    {% for object in object_list %}
-    <div class="col-sm-9 offset-4">
-        <a class="text-capitalize" href="#">#{{object.content}}</a> on<br>
-        {{object.timestamp}}|
-        {{object.timestamp|timesince}}..|  <a href="{{object.get_absolute_url}}">VIEW</a>
-    </div>
-</div><div class="col-12"><hr></div>
+<!--<div class="row">-->
+<!--    {% for object in object_list %}-->
+<!--    <div class="col-sm-9 offset-lg-3">-->
+<!--       <li> <a class="text-capitalize" href="#">#{{object.content}}</a> on<br>-->
+<!--        {{object.timestamp}}|-->
+<!--        {{object.timestamp|timesince}}..|  <a href="{{object.get_absolute_url}}">VIEW</a>-->
+<!--    </div></div></li>-->
+<!--</div><div class="col-12"><hr></div>-->
               {% empty %}
 {% if request.GET.q %}
 no tweet

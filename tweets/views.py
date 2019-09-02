@@ -42,7 +42,7 @@ class Tweetdetailview(DetailView):
     queryset = Tweet.objects.all()
 
     def get_object(self ):
-        print(self.kwargs)
+        # print(self.kwargs)
         pk = self.kwargs.get("pk")
         return Tweet.objects.get(id=pk)
 
@@ -51,7 +51,7 @@ class Tweetlistview(LoginRequiredMixin,ListView):
 
     def get_queryset(self,*args,**kwargs):
         qs=Tweet.objects.all()
-        print(self.request.GET)
+        # print(self.request.GET)
         query=self.request.GET.get("q",None)
         if query is not None:
             qs=qs.filter(

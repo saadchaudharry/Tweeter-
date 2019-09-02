@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("",RedirectView.as_view(url="/tweets/"),name="home"),
     path("tweets/",include('tweets.urls',namespace='tweet')),
+    path("api/tweets/",include('tweets.api.urls',namespace='tweet-api')),
 ]
-
