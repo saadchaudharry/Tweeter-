@@ -1,6 +1,6 @@
-{% load crispy_forms_tags %}
-<form class="form" method="POST" action="{% if action_url %} {{action_url}} {% endif %}">
+{% load static %}
+<form {% if form_id %} id="{{ form_id }}" {% endif %} class="form" method="POST" action="{% if action_url %} {{action_url}} {% endif %}">
 	{% csrf_token %}
-	{{ form|crispy}}
+	{{ form.as_p}}
 	<input class="btn btn-outline-info" type="submit" value="{{btn_title}}">
 </form>

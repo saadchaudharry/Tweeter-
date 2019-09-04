@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from . import views
+from tweets.views import Tweetlistview
 from django.views.generic.base import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("",RedirectView.as_view(url="/tweets/"),name="home"),
+    path("",Tweetlistview.as_view(),name="home"),
     path("tweets/",include('tweets.urls',namespace='tweet')),
     path("api/tweets/",include('tweets.api.urls',namespace='tweet-api')),
 ]

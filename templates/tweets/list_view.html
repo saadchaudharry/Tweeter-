@@ -3,6 +3,9 @@
 
 {% block script %}
 <script>
+
+
+//this regex by cfe
     function getParameterByName(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, '\\$&');
@@ -13,80 +16,125 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
-
-            const xhr=new XMLHttpRequest();
-
-            xhr.open("GET","/api/tweets",true);
-            xhr.onprogress=function () {
-                console.log("loading.....");
-
-            };
-            xhr.onload=function () {
-               let obj= JSON.parse(this.response);
-                console.log(obj)
-                let list=document.getElementById('stuff')
-                str=''
-                for (i in obj){
-                    str+='<li>'+obj[i].content+'</li>'
-                }
-                list.innerHTML=str
-            };
-            xhr.send();
-        
+//how to fetch api throught js
+            // const xhr=new XMLHttpRequest();
+            //
+            // xhr.open("GET","/api/tweets/",true);
+            // xhr.setRequestHeader("Content-type", "application/json");
+            // xhr.onprogress=function () {
+            //     console.log("loading.....");
+            //
+            // };
+            // xhr.onload=function () {
+            //    let obj= JSON.parse(this.response);
+            //     console.log(obj);
+            //     let list=document.getElementById('stuff');
+            //     str='';
+            //     for (i in obj){
+            //         str+='<div class="col-sm-9 offset-lg-3">'+'<a href="#">'+'#'+obj[i].content+'</a>'+
+            //             '<br>'+'via | '+obj[i].user.username+
+            //             '</div>'
+            //             +'<hr>'
+            //     }
+            //     list.innerHTML=str
+            // };
+            // let sad=JSON.stringify();
+            // xhr.send();
+            //
             
-            
+
+$(document).ready(function(){
+    console.log("kaam chalu hai");
+
+    var queryt=getParameterByName('q');
+    console.log(queryt);
+//ajax via jquery
+    function fetchData() {
+        console.log('fetching...');
+        $.ajax({
+         url: "/api/tweets/",
+         data:{
+             "q":queryt
+         },
+         method: "GET",
+         success:data => {
+             $.each(data,function (key,value) {
+                 var keys=key;
+                 var contends=value.content;
+                 var Tusers=value.user;
+                 $("#stuff").append(
+                     "<div class='row'>" +"<div class='col-sm-9 offset-sm-3'>"+"<li>"+"<a href='#'>"+ contends+"</a>" +"<br>"+  "via"  + Tusers.username  +"|  <a href='#'> view" +"</a>"+"</li>"+"</div>" +"</div>"+"<hr>"
+                 )
+             })
+
+         },
+         error:data=>{
+             console.log("error");
+             console.log(data);}
+             });
+
+    }
+    fetchData();
 
 
 
-    //
-    // $(document).ready(function(){
-    //     console.log("kaam chalu hai");
-    //
-    //     var queryt=getParameterByName('q');
-    //     console.log(queryt);
-    //      $.ajax({
-    //          url: "/api/tweets/",
-    //          data:{
-    //              "q":queryt
-    //          },
-    //          method: "GET",
-    //          success: function (data) {
-    //              $.each(data,function (key,value) {
-    //                  // console.log(key);
-    //                  // console.log(value.user);
-    //                  // console.log(value.content);
-    //                  // var via ="via";
-    //                  var keys=key;
-    //                  var contends=value.content;
-    //                  var Tusers=value.user;
-    //                  $("#stuff").append(
-    //                      "<div class='row'>" +"<div class='offset-3'>"+"<li>"+"<a href='#'>"+ contends+"</a>" +"<br>"+  "via"  + Tusers.username  +"|  <a href='#'> view" +"</a>"+"</li>"+"</div>" +"</div>"+"<hr>"
-    //                  )
-    //              })
-    //
-    //          },
-    //          error: function (data) {
-    //              console.log("error");
-    //              console.log(data);
-    //          }
-    //              })
-    //
-    // });
+    $('#tweet_form').submit(function (event) {
+        event.preventDefault();
+        var this_= $(this);
+        // console.log(event);
+        var cData=this_.serialize();
+         $.ajax({
+         url: "/api/tweets/",
+         data:cData,
+         method: "POST",
+         success:function (data) {
+             console.log(data);
+             fetchData()
+         },
+         error:function(data){
+             console.log("error");
+             console.log(data);}
+             });
+    })
+
+    })
+
+
+
+
+
+
 </script>
 {% endblock %}
 
 {% block container %}
-<div id="stuff">
 
-</div>
 <div class="row">
       <div class="col-sm-3 col-xs-12">
             <h1 class="text-center" style="background-color: steelblue">{{ request.user }}</h1>
             </div>
     <div class="col-sm-9 mt-0">
-          {% include "tweets/form.html" with form=create_form action_url=create_url  btn_title="tweet" %}
+        <h3>Share some tweet!</h3>
+          {% include "tweets/form.html" with form=create_form action_url=create_url  btn_title="tweet" form_id="tweet_form" %}
     </div>
 </div><hr>
+        <div id="stuff">
+
+        </div>
+
+<!--{% if request.GET.q %}-->
+<!--no tweet-->
+<!--{% else %}-->
+<!--kakaka-->
+<!--{% endif %}-->
+
+
+{% endblock %}
+
+
+
+
+
 
 <!--<div class="row">-->
 <!--    {% for object in object_list %}-->
@@ -96,15 +144,11 @@
 <!--        {{object.timestamp|timesince}}..|  <a href="{{object.get_absolute_url}}">VIEW</a>-->
 <!--    </div></div></li>-->
 <!--</div><div class="col-12"><hr></div>-->
-              {% empty %}
-{% if request.GET.q %}
-no tweet
-{% else %}
-kakaka
-{% endif %}
 
-{% endfor %}
-{% endblock %}
+<!--{% if request.GET.q %}-->
+<!--no tweet-->
+<!--{% else %}-->
+<!--kakaka-->
+<!--{% endif %}-->
 
-
-
+<!--{% endfor %}-->
