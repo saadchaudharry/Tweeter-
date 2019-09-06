@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import TweetlistApiview
+from .views import TweetlistApiview,TweetCreateApiview
 app_name="tweet-api"
 urlpatterns = [
-    path("",TweetlistApiview.as_view(),name='api_list')
+    path("",TweetlistApiview.as_view(),name='api_list'),
+    path("create/",TweetCreateApiview.as_view(),name='api_create'),
 ]

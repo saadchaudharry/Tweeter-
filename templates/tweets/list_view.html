@@ -16,91 +16,70 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
-//how to fetch api throught js
-            // const xhr=new XMLHttpRequest();
-            //
-            // xhr.open("GET","/api/tweets/",true);
-            // xhr.setRequestHeader("Content-type", "application/json");
-            // xhr.onprogress=function () {
-            //     console.log("loading.....");
-            //
-            // };
-            // xhr.onload=function () {
-            //    let obj= JSON.parse(this.response);
-            //     console.log(obj);
-            //     let list=document.getElementById('stuff');
-            //     str='';
-            //     for (i in obj){
-            //         str+='<div class="col-sm-9 offset-lg-3">'+'<a href="#">'+'#'+obj[i].content+'</a>'+
-            //             '<br>'+'via | '+obj[i].user.username+
-            //             '</div>'
-            //             +'<hr>'
-            //     }
-            //     list.innerHTML=str
-            // };
-            // let sad=JSON.stringify();
-            // xhr.send();
-            //
-            
 
 $(document).ready(function(){
     console.log("kaam chalu hai");
 
     var queryt=getParameterByName('q');
     console.log(queryt);
-//ajax via jquery
-    function fetchData() {
-        console.log('fetching...');
-        $.ajax({
-         url: "/api/tweets/",
-         data:{
-             "q":queryt
-         },
-         method: "GET",
-         success:data => {
-             $.each(data,function (key,value) {
-                 var keys=key;
-                 var contends=value.content;
-                 var Tusers=value.user;
-                 $("#stuff").append(
-                     "<div class='row'>" +"<div class='col-sm-9 offset-sm-3'>"+"<li>"+"<a href='#'>"+ contends+"</a>" +"<br>"+  "via"  + Tusers.username  +"|  <a href='#'> view" +"</a>"+"</li>"+"</div>" +"</div>"+"<hr>"
-                 )
-             })
 
-         },
-         error:data=>{
-             console.log("error");
-             console.log(data);}
-             });
+    function attach(tweetdata,prepend) {
+        var contends = tweetdata.content;
+        var Tusers = tweetdata.user;
+        var times = tweetdata.datedisplay;
+        var format = "<div class='row'>" + "<div class='col-sm-9 offset-sm-3'>" + "<a href='#'>" + "<h5>" + contends + "</h5>" + "</a>" + "<br>" + "via" + Tusers.username + ' | ' + times + "|  <a href='#'> view" + "</a>" + "</div>" + "</div>" + "<hr>";
 
+        if (prepend == true) {
+            $("#stuff").prepend(format)
+        } else {
+            $("#stuff").append(format)
+        }
     }
-    fetchData();
+//ajax via jquery
+        function fetchData() {
+            console.log('fetching...');
+            $.ajax({
+                url: "/api/tweets/",
+                data: {
+                    "q": queryt
+                },
+                method: "GET",
+                success: data => {
+                    $.each(data, function (key, value) {
+                        var keys = key;
+                        attach(value)})
+                },
+                error: data => {
+                    console.log("error");
+                    console.log(data);
+                }
+            });
+        }
+
+        fetchData();
 
 
-
-    $('#tweet_form').submit(function (event) {
-        event.preventDefault();
-        var this_= $(this);
-        // console.log(event);
-        var cData=this_.serialize();
-         $.ajax({
-         url: "/api/tweets/",
-         data:cData,
-         method: "POST",
-         success:function (data) {
-             console.log(data);
-             fetchData()
-         },
-         error:function(data){
-             console.log("error");
-             console.log(data);}
-             });
-    })
-
-    })
-
-
-
+        $('#tweet_form').submit(function (event) {
+            event.preventDefault();
+            var this_ = $(this);
+            // console.log(event);
+            var cData = this_.serialize();
+            $.ajax({
+                url: "/api/tweets/create/",
+                data: cData,
+                method: "POST",
+                success: function (data) {
+                    this_.find("input[type=text], textarea").val("");
+                    // console.log(data);
+                    // fetchData()
+                    attach(data, true)},
+                error: function (data) {
+                    console.log("error");
+                    console.log(data.statusText);
+                    console.log(data.status);}
+            })
+        })
+})
 
 
 
