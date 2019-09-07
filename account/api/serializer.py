@@ -14,5 +14,5 @@ class Userdefault(serializers.ModelSerializer):
             'follow_count'
         ]
     def get_follow_count(self,obj):
-        print(obj.username)
+        # print(obj.username)
         return 0
