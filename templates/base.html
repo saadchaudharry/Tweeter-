@@ -22,6 +22,33 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
    {% block script %} {% endblock %}
+  <script>
+  $(document).ready(function () {
+      console.log("working hai base se bhai");
+      var timeinat;
+      var totaltime=500;
+      var searchinput= $('#navser input[type=text]');
+      var searchquery;
+      searchinput.keyup(function (event) {
+          var searchquery=$(this).val();
+
+          clearTimeout(timeinat);
+          timeinat=setTimeout(searchdone,totaltime)
+      });
+      searchinput.keydown(function () {
+          clearTimeout(timeinat)
+
+      });
+    function searchdone() {
+        console.log("call the done fun");
+      if (searchquery){
+      var url ='/tweets/q='+ searchquery;
+      document.location.href=url;
+      }
+    }
+
+  })
+  </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" >
     </script>
     <script type="text/javascript"src="{% static 'js/bootstrap.min.js' %}"></script>

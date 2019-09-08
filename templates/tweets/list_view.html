@@ -21,6 +21,7 @@ $(document).ready(function(){
 
 console.log("kaam chalu hai");
 
+
 var queryt=getParameterByName('q');
 
 function attach(tweetdata,prepend) {
@@ -33,19 +34,43 @@ function attach(tweetdata,prepend) {
     else
     {$("#stuff").append(format)}
 }
+function parsetweet() {
+    if (tweetlist==0){
+        $('#stuff').text("NO Tweet Found ")
+    }
+    else{
+        $.each(tweetlist,function (key, value) {
+            var tweetkey=key;
+            attach(value)
+        })
+    }
+    
+}
+
 //ajax via jquery
-function fetchData() {
+function fetchData(url) {
     console.log('fetching...');
+    var fetchurl;
+    if(!url){
+        fetchurl="/api/tweets/";
+    }else {fetchurl=url}
     $.ajax({
-        url: "/api/tweets/",
+        url:fetchurl,
         data: {
             "q": queryt
         },
         method: "GET",
         success: data => {
-            $.each(data, function (key, value) {
-                var keys = key;
-                attach(value)})
+            tweetlist=data.results;
+            if (data.next)
+            {
+                nextpage = data.next;
+            }
+            else {
+                $('#loadmore').css("display","none")
+
+            }
+            parsetweet()
         },
         error: data => {
             console.log("error");
@@ -53,6 +78,15 @@ function fetchData() {
     });
 }
 fetchData();
+$('#loadmore').click(function (event) {
+    // console.log(event)
+    event.preventDefault()
+    if(nextpage){
+        fetchData(nextpage)
+    }
+    
+});
+
 
 var max =140;
 var zero=0;
@@ -111,6 +145,8 @@ $('#tweet_form').submit(function (event) {
         <div id="stuff">
 
         </div>
+        <button id='loadmore' type="button" class="btn btn-primary col-sm-4 offset-sm-3"><h6>Load more.</h6></button>
+
 
 <!--{% if request.GET.q %}-->
 <!--no tweet-->

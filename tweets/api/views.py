@@ -1,5 +1,6 @@
 from rest_framework import generics
 from .serializers import Tweetmodelserial
+from .pagination import perpage
 from ..models import Tweet
 from django.db.models import Q
 from rest_framework import permissions
@@ -14,6 +15,7 @@ class TweetCreateApiview(generics.CreateAPIView):
 
 class TweetlistApiview(generics.ListAPIView):
     # queryset = Tweet.objects.all()
+    pagination_class = perpage
     serializer_class = Tweetmodelserial
     def get_queryset(self, *args, **kwargs):
         qs = Tweet.objects.all().order_by("-pk")
