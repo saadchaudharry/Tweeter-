@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block container %}
+<div class="row">
+	<div class="col-sm-3  text-center" style="background-color: lightskyblue">
+	<h1>{{object.username}}</h1>
+	</div>
+	<div class="col-sm-9">
+        <h3>Tweet</h3>
+	</div>
+</div>
+<div class="row offset-3">
+	{% for tweet in object.tweet_set.all %}
+		{{tweet}}<br>
+		{% endfor %}
+</div>
+    <h2>following</h2>
+    <div class="row offset-3">
+	{% for user in object.profile.following.all %}
+		<a href="/profile/{{ user.username }}" >{{user.username}}</a><br>
+        {% empty %}
+        <h4>NOT FOLLOWING</h4>
+		{% endfor %}
+</div>
+        <h2>Followed BY</h2>
+    <div class="row offset-3">
+	{% for user in object.followed_by.all %}
+		<a href="/profile/{{user.user.username }}" >{{user.user.username}}</a><br>
+        {% empty %}
+        <h4>NOT FOLLOWED</h4>
+		{% endfor %}
+</div>
+{% endblock %}

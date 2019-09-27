@@ -20,7 +20,7 @@ function getParameterByName(name, url) {
 $(document).ready(function(){
 
 console.log("kaam chalu hai");
-
+var nextpage;
 
 var queryt=getParameterByName('q');
 
@@ -28,7 +28,7 @@ function attach(tweetdata,prepend) {
     var contends = tweetdata.content;
     var Tusers = tweetdata.user;
     var times = tweetdata.datedisplay;
-    var format = "<div class='row'>" + "<div class='col-sm-9 offset-sm-3'>" + "<a href='#'>" + "<h5>" + contends + "</h5>" + "</a>" + "<br>" + "via" + Tusers.username + ' | ' + times + "|  <a href='#'> view" + "</a>" + "</div>" + "</div>" + "<hr>";
+    var format = "<div class='row'>" + "<div class='col-sm-9 offset-sm-3'>" + "<a href='{{object.get_absolute_url}}'>" + "<h5>" + contends + "</h5>" + "</a>" + "<br>" + "via" + Tusers.username + ' | ' + times + "|  <a href=''> view" + "</a>" + "</div>" + "</div>" + "<hr>";
     if (prepend == true)
     {$("#stuff").prepend(format)}
     else
@@ -54,36 +54,36 @@ function fetchData(url) {
     if(!url){
         fetchurl="/api/tweets/";
     }else {fetchurl=url}
-    $.ajax({
-        url:fetchurl,
-        data: {
-            "q": queryt
-        },
-        method: "GET",
-        success: data => {
-            tweetlist=data.results;
-            if (data.next)
-            {
-                nextpage = data.next;
-            }
-            else {
-                $('#loadmore').css("display","none")
-
-            }
-            parsetweet()
-        },
-        error: data => {
-            console.log("error");
-            console.log(data);}
-    });
+$.ajax({
+    url:fetchurl,
+    data: {
+        "q": queryt
+    },
+    method: "GET",
+    success:
+    function(data)  {
+        tweetlist=data.results;
+         nextpage = data.next;
+        if (data.next)
+        {
+            nextpage=data.next;
+        }
+        else {
+            $('#loadmore').css("display","none")}
+        parsetweet();
+    },
+    error: function (data)  {
+        console.log("error");
+        console.log(data);}
+});
 }
 fetchData();
 $('#loadmore').click(function (event) {
     // console.log(event)
-    event.preventDefault()
+    event.preventDefault();
     if(nextpage){
-        fetchData(nextpage)
-    }
+    fetchData(nextpage)
+     }
     
 });
 
@@ -135,7 +135,7 @@ $('#tweet_form').submit(function (event) {
 
 <div class="row">
       <div class="col-sm-3 col-xs-12">
-            <h1 class="text-center" style="background-color: steelblue">{{ request.user }}</h1>
+          <a href="/profile/{{ request.user }}" ><h1 class="text-center" style="background-color: steelblue;color: #1b1e21">{{ request.user }}</h1></a>
             </div>
     <div class="col-sm-9 mt-0">
         <h3>Share some tweet!</h3>

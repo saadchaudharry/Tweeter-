@@ -24,10 +24,13 @@ class Tweet(models.Model):
 	def get_absolute_url(self):
 		return reverse("tweet:detail",kwargs={"pk":self.pk})
 
+	class Meta:
+		ordering =['-timestamp']
+
 
 
 	# def clean(self,*args,**Kargs):
 	# 	content=self.content
 	# 	if content =="abc":
-	# 		raise ValidationError("nhi chale ga")
+	# 		raise ValidationError("nhi chale ga"\
 	# 	return super(Tweet,self).clean(*args,**Kargs)
