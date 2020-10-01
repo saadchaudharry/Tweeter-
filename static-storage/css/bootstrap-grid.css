@@ -22,10 +22,12 @@ html {
   margin-right: auto;
   margin-left: auto;
 }
+/*___Media Query Start Here*/
 
-@media (min-width: 576px) {
+
+@media (min-width: 676px) {
   .container {
-    max-width: 540px;
+    max-width: 640px;
   }
 }
 
@@ -49,8 +51,8 @@ html {
 
 .container-fluid {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 16px;
+  padding-left: 16px;
   margin-right: auto;
   margin-left: auto;
 }
